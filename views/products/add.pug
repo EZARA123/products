@@ -2,4 +2,4 @@ extends ../layout
 
 block content
     include ../mixins/productForm
-    +reviewForm(review, `/products/${product.id}/review/add`,
+    +productForm(product, categories, '/products/add', '/products/')
