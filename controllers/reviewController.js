@@ -17,7 +17,8 @@ module.exports.addReview = async function(req,res){
     await Review.create( {
         customer_name: req.body.customer_name,
         subject: req.body.subject,
-        rating:req.body.description,
+        rating:req.body.rating,
+        description: req.body.description,
         product_id: req.params.productId
     });
     res.redirect(`/products/profile/${req.params.productId}`)
@@ -29,4 +30,31 @@ module.exports.renderEditReviewForm = async function(req,res){
         req.params.id
     );
     res.render('reviews/edit', {review});
+}
+module.exports.updateReview = async function (req, res){
+    const review = await Review.findByPk(
+        req.params.ideal
+    );
+        await Review.update( {
+            customer_name: req.body.customer_name,
+            subject: req.body.subject,
+            rating: req.body.rating,
+            description: req.body.description
+        }, {
+            where: {
+                id: req.params.id
+            }
+        }
+     );
+        res.redirect(`/products/profile/${review.product_id}`);
+}
+
+module.exports.deleteReview = async function(req, res){
+    const review = await Review.findByPk(req.params.id);
+    await Review.destory( {
+        where: {
+            id: req.params.id
+        }
+    });
+    res.redirect(`/products/profile/${review.product_id}`);
 }
